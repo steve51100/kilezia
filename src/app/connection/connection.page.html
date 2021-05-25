@@ -1,0 +1,51 @@
+<ion-content>
+  <div class="page">
+    <div class="blc">
+      <div class="connection">
+        <img src="../../assets/the.png" alt="" srcset="">
+      </div>
+     <div>
+
+     </div>
+    </div>
+    <div class="blc">
+      <div class="connection">
+        <h1>Connectez-vous <br />à votre espace</h1>
+        <ion-input type="email" placeholder="Votre adresse email" [(ngModel)]="dataUser.email">
+        </ion-input>
+
+        <ion-input type="password" placeholder="Password" [(ngModel)]="dataUser.password"></ion-input>
+
+        <ion-button (click)="login()" expand="block">
+          connection
+        </ion-button>
+        <p>Mon suivi de chantier est la plateforme de service en ligne proposée par <span>Kilezia</span>. Pour créer un
+          compte, prenez contact avec <span>Kilezia</span>.</p>
+      </div>
+    </div>
+    <div class="blc">
+      <p>Version BETA</p>
+    </div>
+  </div>
+
+
+  <!--
+  <div class="connection">
+    <div class="logo">
+      <ion-icon  name="person-circle"></ion-icon>
+    </div>
+
+     <ion-input type="email" placeholder="Votre adresse email" [(ngModel)]="dataUser.email"></ion-input>
+
+     <ion-input type="password" placeholder="Votre mot de passe" [(ngModel)]="dataUser.password"></ion-input>
+
+    <ion-button (click)="login()" expand="block"  shape="round">
+      connection
+    </ion-button>
+    <p>by killezia</p>
+  </div>
+</div>
+<div class="blc">
+
+</div>-->
+</ion-content>

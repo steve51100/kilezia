@@ -1,0 +1,142 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>missions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="block">
+    <!--Liste-->
+    <div class="separateur">
+      <ion-item-divider>
+        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+        <ion-label class="titre">
+          <h2>LISTE DES MISSIONS EN COURS:</h2>
+        </ion-label>
+        <ion-icon slot="end" color="warning" name="bulb" (click)="OpenModal()" style="cursor: pointer;"></ion-icon>
+               
+          <ion-toggle slot="end" color="primary"></ion-toggle>
+      
+      </ion-item-divider>
+
+
+
+
+      <ion-item *ngFor="let mission of (missions | async)">
+
+        <ion-checkbox color="success"></ion-checkbox>
+        <ion-label> <span>Entreprise:</span> {{mission.entreprise}} <br /><span>Mission du:</span> {{ mission.date }}
+          <br /><span>Objectif:</span> {{ mission.titre }}
+        </ion-label>
+        <ion-icon  color="danger" name="close"></ion-icon>
+        <ion-button expand="block" fill="clear" [routerLink]="['/mission',mission.id]">
+          <ion-icon slot="end" color="success" title="voir" name="eye"></ion-icon>
+        </ion-button>
+
+        <ion-button expand="block" fill="clear" >
+          <ion-icon slot="end"  title="voir" name="create"></ion-icon>
+        </ion-button>
+
+        <ion-button expand="block" fill="clear" >
+          <ion-icon slot="end" color="medium" title="voir" name="move"></ion-icon>
+        </ion-button>
+
+        <ion-button (click)="supprimerMission(mission)" expand="block" fill="clear">
+          <ion-icon slot="end" color="danger" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item-divider>
+        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+        <ion-label class="titre">
+          <h2>LISTE DES MISSIONS RECURENTES:</h2>
+        </ion-label>
+      </ion-item-divider>
+
+
+      <ion-item-divider>
+        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+        <ion-label class="titre">
+          <h2>MISSIONS TERMINER:</h2>
+        </ion-label>
+      </ion-item-divider>
+    </div>
+
+
+
+
+    <!--Formulaire-->
+    <div class="separateur">
+      <h1>Ajouter une nouvelle mission</h1>
+      <p class="conseil">
+        <ion-icon slot="start" name="bulb"></ion-icon>il vous manque un(e) technicien(ne) ajouter le dans la base de
+        données :)
+      </p>
+      <div class="formulaire">
+        <p>Nom de l'entreprise:</p>
+        <ion-card>
+          <ion-select cancelText="annuler" okText="valider" [(ngModel)]="mission.entreprise">
+            <ion-select-option  *ngFor="let entreprise of entreprises">{{ entreprise.nom }}</ion-select-option>
+          </ion-select>
+        </ion-card>
+
+        <p>Date debut de mission:</p>
+        <ion-card>
+          <ion-input style=" text-indent: 5px;" type="text" required="required" placeholder="Date de la mission"
+            [(ngModel)]="mission.date"></ion-input>
+        </ion-card>
+
+        <p>Nom des techniciens :</p>
+        <ion-card>
+          <ion-select multiple="true" cancelText="annuler" okText="valider" [(ngModel)]="mission.nomTechnicien">
+            <ion-select-option *ngFor="let tech of techs">{{ tech.nom }} {{ tech.prenom }}</ion-select-option>
+          </ion-select>
+        </ion-card>
+
+        <p>Nom du chef de chantier:</p>
+        <ion-card>
+          <ion-select cancelText="annuler" okText="valider" [(ngModel)]="mission.chefDeChantier">
+            <ion-select-option *ngFor="let tech of techs">{{ tech.nom }} {{ tech.prenom }}</ion-select-option>
+          </ion-select>
+        </ion-card>
+
+        <p>Objectif de la mission:</p>
+        <ion-card>
+          <ion-input type="text" placeholder="ex: transfert de la ligne M42" style=" text-indent: 5px;"
+            [(ngModel)]="mission.titre"></ion-input>
+        </ion-card>
+
+        <p>Ajouter les taches à effectuer:</p>
+        <p class="conseil">
+          <ion-icon slot="start" name="bulb"></ion-icon>Cliquer sur la croix pour supprimer.
+        </p>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="2" *ngFor="let tache of mission.taches" class="box">
+              <div>
+                <ion-icon slot="end" name="close" color="light" (click)="supprimerTache(tache)"></ion-icon>
+                <p>{{ tache.nom }}</p>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-item style="padding-bottom: 16px;">
+          <ion-input style=" background-color: white; text-indent: 5px" type="text" placeholder="Ajouter une tache"
+            [(ngModel)]="newTache.nom" required="required"></ion-input>
+          <ion-button (click)="addTache()" class="add_btn">
+            <ion-icon name="add"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <ion-item>
+          <ion-button slot="end" color="danger" fill="clear" (click)="annuler()" class="btn">
+            Annuler
+          </ion-button>
+          <ion-button slot="end" color="primary" (click)="saveMission()" fill="clear" class="btn">
+            Valider
+          </ion-button>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+</ion-content>

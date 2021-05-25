@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>entreprise</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="block">
+    <!--Liste-->
+    <div class="separateur">
+      <ion-item-divider>
+        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+        <ion-label class="titre">
+          <h2>LISTE DES ENTREPRISES:</h2>
+        </ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let entreprise of entreprises">
+        <ion-label><p>{{ entreprise.nom }}</p></ion-label>
+        <ion-button (click)="deleteEntreprise(entreprise)" expand="block" fill="clear">
+          <ion-icon slot="end" color="danger" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+
+    </div>
+
+
+
+
+    <!--Formulaire-->
+    <div class="separateur">
+      <h1>Ajouter une nouvelle entreprise</h1>
+      <p class="conseil">
+        <ion-icon slot="start" name="bulb"></ion-icon>il vous manque un(e) technicien(ne) ajouter le dans la base de
+        données :)
+      </p>
+      <div class="formulaire">
+        <p>Nom de l'entreprise:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="nomEntreprise" type="text" placeholder=" Nom de l' entreprise" required></ion-input>
+        </ion-card>
+        <br/>
+        <p>ADRESSE DE L'ENTREPRISE:</p>
+        <p>Numéro:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="numero" type="text" placeholder="12"></ion-input>
+        </ion-card>
+        <p>Rue:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="adresse" type="text" placeholder=" Rue de tilleuil"></ion-input>
+        </ion-card>
+        <p>Code postal:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="cp" type="text" placeholder=" 77547"></ion-input>
+        </ion-card>
+        <p>Ville:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="ville" type="text" placeholder=" Paris"></ion-input>
+        </ion-card>
+
+        <ion-item>
+          <ion-button slot="end" color="danger" fill="clear" (click)="clear()" class="btn">
+            Annuler
+          </ion-button>
+          <ion-button slot="end" color="primary" (click)="addEntrepriseToFirebase()" fill="clear" class="btn">
+            Valider
+          </ion-button>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+</ion-content>

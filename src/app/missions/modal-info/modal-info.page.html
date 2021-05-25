@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Information</ion-title>
+    <ion-button slot="end" (click)="CloseModal()" color="danger" fill="clear"  shape="round">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <div class="info">
+   <h2>Bienvenu dans Missions.</h2>
+   <p>Ici vous pouvez retrouver la liste des missions et en créer de nouvelle dans le formulaire prevu à cette effet.</p>
+   <p>Champ mission:</p>
+   <p>Retrouvez le nom de l'entreprise , la date de mission et sont Objectif.</p>
+  <div class="p">
+    <p><ion-icon slot="start"  color="danger" name="close"></ion-icon>: Votre missions n'est pas activer.</p>
+    <p><ion-icon slot="start" color="success" name="eye"></ion-icon>: Détail de la mission et suivi en direct de l'avancement des chantier.</p>
+    <p><ion-icon slot="end"  name="create"></ion-icon>: Modifier une mission.</p>
+    <p> <ion-icon slot="end" name="move"></ion-icon>: Déplacer selon votre envie <span><ion-toggle checked [disables]="true"></ion-toggle> (doit être activer).</span></p>
+    <p><ion-icon slot="start" color="danger" name="trash"></ion-icon>:Supprimer votre mission <span>(attention la suppression est definitive).</span>.</p>
+  </div>
+ </div>
+</ion-content>

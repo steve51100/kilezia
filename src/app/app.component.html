@@ -1,0 +1,103 @@
+<!--
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>ter</ion-title>
+  </ion-toolbar>
+</ion-header>
+-->
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay" id="menu">
+      <ion-content>
+        <ion-list id="inbox-list">
+         <div class="box">
+          <img src="../assets/the.png" class="img">
+         </div>
+        
+          <ion-button (click)="logout()" expand="block" color="danger" shape="round">
+            Déconnection
+          </ion-button>
+        </ion-list>
+
+
+        <ion-item-divider (click)="showBase()">
+          <ion-icon slot="start" name="server"></ion-icon>
+          <ion-label class="titre">
+            Base de données
+          </ion-label>
+        </ion-item-divider>
+        <ion-item  (click)="showPersonnels()"  style="cursor: pointer;">
+          <ion-label>Gestions du personnels <ion-icon slot="end" name="chevron-down"></ion-icon></ion-label>
+        </ion-item>
+        <div class="list">
+          <ion-item *ngIf="personnels">
+            <ion-button fill="clear" color="dark" [routerLink]="['/administration']">Administration</ion-button>
+          </ion-item><ion-item *ngIf="personnels">
+            <ion-button fill="clear" color="dark" [routerLink]="['/charger-affaire']">Charger d'affaires</ion-button>
+          </ion-item><ion-item *ngIf="personnels">
+            <ion-button fill="clear" color="dark" [routerLink]="['/technicien']">Technicien(nes)</ion-button>
+          </ion-item>
+        </div>
+
+
+        <ion-item (click)="showEntreprises()"  style="cursor: pointer;">
+          <ion-label>Gestions des entreprises<ion-icon slot="end" name="chevron-down"></ion-icon></ion-label>
+        </ion-item>
+        <div class="list">
+          <ion-item *ngIf="entreprises">
+            <ion-button fill="clear" color="dark" [routerLink]="['/entreprise']">Entreprises</ion-button>
+          </ion-item>
+        </div>
+        <ion-item (click)="showPdf()"  style="cursor: pointer;">
+          <ion-label>Gestions notes de services<ion-icon slot="end" name="chevron-down"></ion-icon></ion-label>
+        </ion-item>
+        <div class="list">
+          <ion-item *ngIf="pdf">
+            <ion-button fill="clear" color="dark" [routerLink]="['/note-de-service']">Note de service</ion-button>
+          </ion-item>
+        </div>
+
+        <ion-item-divider (click)="showContact()">
+          <ion-icon slot="start" name="calendar"></ion-icon>
+          <ion-label class="titre">
+            Planning
+          </ion-label>
+        </ion-item-divider>
+          <ion-item  style="cursor: pointer;">
+            <ion-label [routerLink]="['/planning']">Gestions du planning  >></ion-label>
+          </ion-item> 
+
+
+        <ion-item-divider (click)="showMission()">
+          <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+          <ion-label class="titre">
+            Missions
+          </ion-label>
+        </ion-item-divider>
+        <ion-item  [routerLink]="['/missions']">
+          <ion-label>Gestions des missions >></ion-label>
+        </ion-item>
+
+        <ion-item-divider (click)="showContact()">
+          <ion-icon slot="start" name="call"></ion-icon>
+          <ion-label class="titre">
+            Contacts
+          </ion-label>
+        </ion-item-divider>
+          <ion-item  style="cursor: pointer;">
+            <ion-label [routerLink]="['/admin']">Liste des contacts  >></ion-label>
+          </ion-item> 
+         
+              
+        
+
+
+
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

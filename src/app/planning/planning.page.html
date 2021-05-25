@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>planning</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div id="block">
+  <div class="separateur">
+    <ion-item-divider>
+      <ion-icon slot="start" name="calendar"></ion-icon>
+      <ion-label class="titre">
+        <h2>Liste des plannings:</h2>
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item *ngFor="let uploadPdf of uploadPdfs">
+      <ion-label> <span></span> {{uploadPdf.name}}
+      </ion-label>
+      <ion-button expand="block" fill="clear">
+        <a href= '{{ uploadPdf.url }}' target="_blank"><ion-icon slot="end" color="success" title="voir" name="eye"></ion-icon></a>
+      </ion-button>
+      <ion-button  expand="block" fill="clear" (click)="deleteUploadPdf(uploadPdf)">
+        <ion-icon slot="end" color="danger" name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+  </div>
+
+
+  <div class="separateur">
+    <h1>Ajouter une nouveau planning</h1>
+
+   <div class="formulaire">
+        <p>{{ percentage }}%</p>
+
+        <ion-input type="file" (change)="selectFile($event)" accept=".pdf"></ion-input>
+        <ion-button (click)="upload()" color="primary"  shape="round">
+            Ajouter
+        </ion-button>
+    </div>
+
+
+  </div>
+</div>
+</ion-content>

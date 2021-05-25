@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "kilezia-37402"
+  },
+  "targets": {
+    "kilezia-37402": {
+      "hosting": {
+        "www": [
+          "killezia-admin"
+        ]
+      }
+    }
+  }
+}

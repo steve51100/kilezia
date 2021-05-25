@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button color="dark"  text="Missions"></ion-back-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div id="block">
+    <div class="separateur">
+      <ion-item-divider>
+        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+        <ion-label class="titre">
+          <h2>Détail de  votre mission:</h2>
+        </ion-label>
+      </ion-item-divider>
+      <ion-item>
+        <ion-label>Entreprise:</ion-label>
+        <p>{{mission.entreprise}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label>Objectif:</ion-label>
+        <p>{{mission.titre}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label>Téchnicien(nes):</ion-label>
+        <p>{{ mission.nomTechnicien}}</p>
+      </ion-item>
+      <ion-item>
+        <ion-label>Résponsable de chantier:</ion-label>
+        <p>{{ mission.chefDeChantier }}</p>
+      </ion-item>
+    </div>
+    <div class="separateur">
+      <ion-item-divider>
+        <ion-icon slot="start" name=""></ion-icon>
+        <ion-label class="titre">
+          <h2>Détail de  votre mission:</h2>
+        </ion-label>
+      </ion-item-divider>
+      <div class="scroll">
+         <ion-card *ngFor="let tache of mission.taches">
+        <ion-item lines="none" >
+          <ion-checkbox color="success" slot="start" [(ngModel)]="tache.termine" (ionChange)="updateMission()"></ion-checkbox>
+          <ion-label text-wrap>
+            <p>{{tache.nom}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+      </div>
+     
+    </div>
+  </div>
+</ion-content>

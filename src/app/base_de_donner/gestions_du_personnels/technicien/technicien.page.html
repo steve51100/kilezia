@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>technicien</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="block">
+    <div class="separateur">
+      <ion-item-divider>
+        <ion-icon slot="start" name="people"></ion-icon>
+        <ion-label class="titre">
+          <h2>liste des techniciens:</h2>
+        </ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let tech of techs">
+        <ion-label><p>{{ tech.nom }} {{ tech.prenom }}</p></ion-label>
+        <ion-button (click)="deleteTech(tech)" expand="block" fill="clear">
+          <ion-icon slot="end" color="danger" name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </div>
+
+
+    <div class="separateur">
+      <h1>Ajouter un(e) technicien(ne)</h1>
+      <div class="formulaire">
+        <p>Nom :</p>
+        <ion-card>
+          <ion-input [(ngModel)]="nom" style=" text-indent: 5px;" type="text" required="required" placeholder="Dupont">
+          </ion-input>
+        </ion-card>
+
+        <p>Prénom:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="prenom" style=" text-indent: 5px;" type="text" required="required"
+            placeholder="David"></ion-input>
+        </ion-card>
+
+        <p>Fonction:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="fonction" style=" text-indent: 5px;" type="text" required="required"
+            placeholder="ex: soudeur , mecanicien"></ion-input>
+        </ion-card>
+
+        <p>Téléphone:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="telephone" style=" text-indent: 5px;" type="tel" required="required"
+            placeholder="0614211421" maxlength="10" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required></ion-input>
+        </ion-card>
+
+        <p>Adresse email:</p>
+        <ion-card>
+          <ion-input [(ngModel)]="mail" type="email" placeholder="ex: contact.dupond@gmail.com"
+            style=" text-indent: 5px;"></ion-input>
+        </ion-card>
+
+        <ion-item lines="none">
+          <ion-button (click)=" clear()" slot="end" color="danger" fill="clear" class="btn">
+            Annuler
+          </ion-button>
+          <ion-button (click)="addTechToFirebase()" slot="end" color="primary" fill="clear" class="btn">
+            Valider
+          </ion-button>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+</ion-content>

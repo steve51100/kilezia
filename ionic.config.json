@@ -1,0 +1,7 @@
+{
+  "name": "kilezia_admin",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

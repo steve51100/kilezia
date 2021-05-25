@@ -1,0 +1,35 @@
+//couleur de font
+@mixin diviser {
+        color: black;
+        background-color: rgb(128, 196, 196);
+        text-transform: uppercase;
+        font-weight: bold;
+        ion-icon{
+          color: black;
+    }
+  
+  
+}
+@mixin icon {
+        font-size: 25px;
+}
+
+@mixin separateur {   
+        width: 100%;
+        border-right: 1px dashed black; 
+}
+@mixin block {
+        border: 1px solid black;
+        border-bottom: none;
+        height: 100%;
+        display: flex;
+}
+@mixin titre {
+        color: black;
+        font-weight: bold;
+        text-transform: uppercase;
+}
+@mixin conseil {
+        color: rgb(216, 167, 60);
+        margin-left: 35px;     
+}
