@@ -47,19 +47,22 @@ ion-item-divider{
 }
 .search{
     padding-top: 15px;
-    height: 150px;
+    height: 250px;
     background-image: url("../../../assets/pattern.png");
     background-repeat: no-repeat;
     background-size: 100% 220%;
     
     background-color: rgb(26, 88, 145);
     h2{
-        font-size: 30px;
+        font-size: 25px;
+        margin-top: 50px;
         color: white;
         font-weight: bold;
         text-align: center;
     }
     ion-searchbar{
-       width: 100%;
+       width: 50%;
+       background: transparent;
+       margin: auto;
     }
 }

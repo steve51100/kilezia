@@ -79,33 +79,18 @@ export class AdminPage implements OnInit {
    if(searchTerm && searchTerm.trim() !=''){
      this.techs = this.techs.filter((tech) =>{
        return (tech.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || tech.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || tech.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-     })
+     }),
+     this.affaires = this.affaires.filter((affaire) =>{
+      return (affaire.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || affaire.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || affaire.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+    }),
+    this.administrations = this.administrations.filter((administration) =>{
+      return (administration.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || administration.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || administration.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+    })
    }else{
     this.getTechs();
-   }
-  }
-
-  async filterAffaireList(ev:any) {
-    const searchTerm = ev.target.value;
-   if(searchTerm && searchTerm.trim() !=''){
-     this.affaires = this.affaires.filter((affaire) =>{
-       return (affaire.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || affaire.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || affaire.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-     })
-   }else{
     this.getAffaires();
-   }
-  }
-
-  async filterAdminList(ev:any) {
-    const searchTerm = ev.target.value;
-   if(searchTerm && searchTerm.trim() !=''){
-     this.administrations = this.administrations.filter((administration) =>{
-       return (administration.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || administration.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || administration.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
-     })
-   }else{
     this.getAdmin();
    }
   }
-
-  
+ 
 }
