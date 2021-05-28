@@ -11,14 +11,15 @@ export class AdminPage implements OnInit {
 
   administrations = [];
   affaires = [];
-  techs = [];
-  
+  techs: any[];
+
 
   constructor(public afDB: AngularFireDatabase) {
     this.getTechs();
     this.getAffaires();
     this.getAdmin();
-   }
+
+  }
 
   ngOnInit() {
   }
@@ -26,15 +27,15 @@ export class AdminPage implements OnInit {
     this.afDB.list('administrations/').snapshotChanges(['child_added', 'child_removed']).subscribe(actions => {
       this.administrations = [];
       actions.forEach(action => {
-       // console.log('info:' + action.payload.exportVal().prenom);
-        
+        // console.log('info:' + action.payload.exportVal().prenom);
+
         this.administrations.push({
           key: action.key,
           prenom: action.payload.exportVal().prenom,
-          nom:  action.payload.exportVal().nom,
-          fonction:  action.payload.exportVal().fonction,
-          telephone:  action.payload.exportVal().telephone,
-          mail:  action.payload.exportVal().mail,
+          nom: action.payload.exportVal().nom,
+          fonction: action.payload.exportVal().fonction,
+          telephone: action.payload.exportVal().telephone,
+          mail: action.payload.exportVal().mail,
         });
       });
     });
@@ -43,15 +44,15 @@ export class AdminPage implements OnInit {
     this.afDB.list('charger_affaires/').snapshotChanges(['child_added', 'child_removed']).subscribe(actions => {
       this.affaires = [];
       actions.forEach(action => {
-       // console.log('info:' + action.payload.exportVal().prenom);
-        
+        // console.log('info:' + action.payload.exportVal().prenom);
+
         this.affaires.push({
           key: action.key,
           prenom: action.payload.exportVal().prenom,
-          nom:  action.payload.exportVal().nom,
-          fonction:  action.payload.exportVal().fonction,
-          telephone:  action.payload.exportVal().telephone,
-          mail:  action.payload.exportVal().mail,
+          nom: action.payload.exportVal().nom,
+          fonction: action.payload.exportVal().fonction,
+          telephone: action.payload.exportVal().telephone,
+          mail: action.payload.exportVal().mail,
         });
       });
     });
@@ -60,17 +61,51 @@ export class AdminPage implements OnInit {
     this.afDB.list('techniciens/').snapshotChanges(['child_added', 'child_removed']).subscribe(actions => {
       this.techs = [];
       actions.forEach(action => {
-       // console.log('info:' + action.payload.exportVal().prenom);
-        
+        // console.log('info:' + action.payload.exportVal().prenom);
+
         this.techs.push({
           key: action.key,
           prenom: action.payload.exportVal().prenom,
-          nom:  action.payload.exportVal().nom,
-          fonction:  action.payload.exportVal().fonction,
-          telephone:  action.payload.exportVal().telephone,
-          mail:  action.payload.exportVal().mail,
+          nom: action.payload.exportVal().nom,
+          fonction: action.payload.exportVal().fonction,
+          telephone: action.payload.exportVal().telephone,
+          mail: action.payload.exportVal().mail,
         });
       });
     });
   }
+  async filterList(ev:any) {
+    const searchTerm = ev.target.value;
+   if(searchTerm && searchTerm.trim() !=''){
+     this.techs = this.techs.filter((tech) =>{
+       return (tech.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || tech.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || tech.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+     })
+   }else{
+    this.getTechs();
+   }
+  }
+
+  async filterAffaireList(ev:any) {
+    const searchTerm = ev.target.value;
+   if(searchTerm && searchTerm.trim() !=''){
+     this.affaires = this.affaires.filter((affaire) =>{
+       return (affaire.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || affaire.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || affaire.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+     })
+   }else{
+    this.getAffaires();
+   }
+  }
+
+  async filterAdminList(ev:any) {
+    const searchTerm = ev.target.value;
+   if(searchTerm && searchTerm.trim() !=''){
+     this.administrations = this.administrations.filter((administration) =>{
+       return (administration.fonction.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || administration.nom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1  || administration.prenom.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+     })
+   }else{
+    this.getAdmin();
+   }
+  }
+
+  
 }

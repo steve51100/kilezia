@@ -6,6 +6,9 @@
 </ion-header>
 
 <ion-content>
+  <div class="search">
+    <h2>Rechercher ici un(e) employé(e) dans la liste <br/> par son nom ou sa fonction</h2>
+  </div>
   <div id="block">
     <div class="separateur">
       <ion-item-divider>
@@ -14,6 +17,7 @@
           <h2>Contacts admistration:</h2>
         </ion-label>
       </ion-item-divider>
+      <ion-searchbar placeholder="Recherche par nom,function..." (ionInput)="filterAdminList($event)" ></ion-searchbar>
       <div class="scroll">
         <ion-card *ngFor="let administration of administrations">
           <ion-text>
@@ -33,6 +37,7 @@
           <h2>Contacts chargers d'affaires:</h2>
         </ion-label>
       </ion-item-divider>
+      <ion-searchbar placeholder="Recherche par nom,function..." (ionInput)="filterAffaireList($event)" ></ion-searchbar>
       <div class="scroll">
         <ion-card *ngFor="let affaire of affaires">
           <ion-text>
@@ -52,6 +57,7 @@
           <h2>Contacts technciens</h2>
         </ion-label>
       </ion-item-divider>
+      <ion-searchbar placeholder="Recherche par nom,function..." (ionInput)="filterList($event)" ></ion-searchbar>
       <div class="scroll">
         <ion-card *ngFor="let tech of techs">
           <ion-text>
