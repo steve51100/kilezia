@@ -5,17 +5,22 @@
 </ion-header>
 
 <ion-content>
+  <div class="search">
+    <ion-icon  name="document-attach"></ion-icon>
+    <h2>Communiquer plus efficacement  <br/> PDF / JPG / PNG ...</h2>
+
+  </div>
 <div id="block">
   <div class="separateur">
     <ion-item-divider>
       <ion-icon slot="start" name="document-attach"></ion-icon>
       <ion-label class="titre">
-        <h2>Liste des notes de services:</h2>
+        <h2>notes de services:</h2>
       </ion-label>
     </ion-item-divider>
 
     <ion-item *ngFor="let uploadPdf of uploadPdfs">
-      <ion-label> <span>Notes de service:</span> {{uploadPdf.name}}
+      <ion-label>  {{uploadPdf.name}}
       </ion-label>
       <ion-button expand="block" fill="clear">
         <a href= '{{ uploadPdf.url }}' target="_blank"><ion-icon slot="end" color="success" title="voir" name="eye"></ion-icon></a>

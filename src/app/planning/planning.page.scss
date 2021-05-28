@@ -49,3 +49,26 @@ ion-icon{
     margin: auto;
   }
 }
+.search{
+  padding-top: 15px;
+  text-align: center;
+  height: 250px;
+  background-image: url("../../assets/pattern.png");
+  background-repeat: no-repeat;
+  background-size: 100% 220%;
+  
+  background-color: rgb(145, 143, 26);
+  h2{
+      font-size: 35px;
+      margin-top: 20px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+  }
+  ion-icon{
+    color: rgb(255, 255, 255);
+    font-size: 100px;
+    
+
+  }
+}
