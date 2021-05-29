@@ -1,31 +1,33 @@
-import { Component} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import {MissionDataModel} from "../../models/MissionDataModel";
-import {MissionDataService} from "../../services/mission-data.service";
-import {Observable} from "rxjs";
-import {AlertController} from "@ionic/angular";
+import { MissionDataModel } from "../../models/MissionDataModel";
+import { MissionDataService, MissionModel } from "../../services/mission-data.service";
+import { Observable } from "rxjs";
+import { AlertController, IonReorderGroup } from "@ionic/angular";
 import { ToastController } from '@ionic/angular';
 import { TacheDataModel } from "../../models/TacheDataModel";
 import { ModalController} from '@ionic/angular';
 import { ModalInfoPage } from '../modal-info/modal-info.page';
+import { ItemReorderEventDetail } from '@ionic/core';
 
+import { MissionStatus } from "../../enums/MissionStatus";
 
 @Component({
   selector: 'app-missions',
   templateUrl: './missions.page.html',
   styleUrls: ['./missions.page.scss'],
 })
-export class MissionsPage  {
+export class MissionsPage implements OnInit {
+
+  @ViewChild(IonReorderGroup) reorderGroup: IonReorderGroup;
 
   addform:boolean;
   fini:boolean;
   techs = [];
   entreprises = [];
   Taches = true;
-
-  
 
   newTache: TacheDataModel = {
     nom: [],
@@ -35,8 +37,12 @@ export class MissionsPage  {
     termine: false
   };
   mission: MissionDataModel = new MissionDataModel();
-  missions:Observable<MissionDataModel[]>;
+  missionsObservable:Observable<MissionDataModel[]>;
+  missions: MissionDataModel[] = [];
   items: string[];
+
+  // L'utilisateur peut reordonner la liste
+  canReorder:boolean  = false;
   
   constructor(
     public afDB: AngularFireDatabase,
@@ -46,17 +52,107 @@ export class MissionsPage  {
     private router: Router,
     public alertController: AlertController,
     private modalController:ModalController
-   
   ) {
     this.getTechs();
     this.getEntreprise();
    }
-   // Récupérer la liste des missions quand on entre dans la peg
+
+  
+  // Récupérer la liste des missions quand on entre dans la peg
   ngOnInit(){
-    this.missions = this.missionDataService.getMissions();
+    this.missionDataService.getMissions().subscribe(missions => {
+      this.missions = missions;
+    });
+  }
+
+  getMissionsEnCours(){
+    return this.missions.filter(m => m.status === undefined || m.status === MissionStatus.EN_COURS);
+  }
+
+  getMissionsRecurrentes(){
+    return this.missions.filter(m => m.status === MissionStatus.RECURRENT);
+  }
+
+  getMissionsTerminees(){
+    return this.missions.filter(m => m.status === MissionStatus.TERMINE);
+  }
+
+  onModifierMission(mission: MissionDataModel){
+    this.mission = mission;
+  }
+
+  onMissionActivationChanged(ev,mission: MissionDataModel){
+    mission.isActivated = ev.detail.checked;
+    this.missionDataService.updateMission(mission);
+  }
+
+  doReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+
+    if(ev.detail.to == 0){
+      //ev.detail.to = ev.detail.from;
+      ev.detail.complete(false);
+      return;
+    }
+
+    ev.detail.complete();
+      
+    let status:number;
+
+    const children = Array.from(ev.target['children']);
+
+    const indexRecurrentes  = children.findIndex(elt => elt['id'] == "missions-recurrentes");
+    const indexTerminees    = children.findIndex(elt => elt['id'] == "missions-terminees");
+
+    // On descend
+    if(ev.detail.from < ev.detail.to){
+      if(ev.detail.to >= indexTerminees){
+        status = MissionStatus.TERMINE;
+      }
+      else if(ev.detail.to >= indexRecurrentes){
+        status = MissionStatus.RECURRENT;
+      }
+      else{
+        status = MissionStatus.EN_COURS;
+      }
+      console.log(Array.from(ev.target['children']));
+    }
+    // On monte
+    else{
+      if(ev.detail.to <= indexRecurrentes){
+        status = MissionStatus.EN_COURS;
+      }
+      else if(ev.detail.to <= indexTerminees){
+        status = MissionStatus.RECURRENT;
+      }
+      else{
+        status = MissionStatus.TERMINE;
+      }
+      console.log(Array.from(ev.target['children']));
+    }
+
+    setTimeout(()=>{
+      console.log("After 1 seconde",Array.from(ev.target['children']));
+    },1000)
+
     
+    const id = Array.from(ev.target['children']).filter((e,index) => index ===  ev.detail.to)[0]['id']
+
+    const mission = this.missions.find(m => m.id === id);
+    mission.status = status;
+    this.missionDataService.updateMission(mission);
+
+    
+
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. This method can also be called directly
+    // by the reorder group
     
   }
+
+  toggleReorderGroup() {
+    this.reorderGroup.disabled = !this.reorderGroup.disabled;
+  }
+  
 
   // Récupérer la liste des missions quand on entre dans la peg
   addTache() {
@@ -166,10 +262,11 @@ export class MissionsPage  {
       });
     });
   }
+  
   annuler(){
     this.mission = new MissionDataModel();
-   
   }
+
   OpenModal(){
     this.modalController.create({component:ModalInfoPage}).then((modalElement)=>{
       modalElement.present();
