@@ -8,66 +8,47 @@
   <div id="block">
     <!--Liste-->
     <div class="separateur">
-      <ion-item-divider>
-        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
-        <ion-label class="titre">
-          <h2>LISTE DES MISSIONS EN COURS:</h2>
-        </ion-label>
-        <ion-icon slot="end" color="warning" name="bulb" (click)="OpenModal()" style="cursor: pointer;"></ion-icon>
-               
-          <ion-toggle slot="end" color="primary"></ion-toggle>
-      
-      </ion-item-divider>
+      <ion-list lines="none">
+        <ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="!canReorder">
+        
+          <ion-item-divider  id="missions-en-cours">
+            <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+            <ion-label class="titre">
+              <h2>LISTE DES MISSIONS EN COURS:</h2>
+            </ion-label>
+            <ion-icon slot="end" color="warning" name="bulb" (click)="OpenModal()" style="cursor: pointer;"></ion-icon>
+  
+            <ion-toggle slot="end" color="primary" [(ngModel)]="canReorder"></ion-toggle>
+  
+          </ion-item-divider>
+  
+          <ng-container [ngTemplateOutlet]="missionsList" [ngTemplateOutletContext]="{missions : getMissionsEnCours()}"></ng-container> 
+  
+          <ion-item-divider id="missions-recurrentes">
+            <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+            <ion-label class="titre">
+              <h2>LISTE DES MISSIONS RECURENTES:</h2>
+            </ion-label>
+          </ion-item-divider>
 
-
-
-
-      <ion-item *ngFor="let mission of (missions | async)">
-
-        <ion-checkbox color="success"></ion-checkbox>
-        <ion-label> <span>Entreprise:</span> {{mission.entreprise}} <br /><span>Mission du:</span> {{ mission.date }}
-          <br /><span>Objectif:</span> {{ mission.titre }}
-        </ion-label>
-        <ion-icon  color="danger" name="close"></ion-icon>
-        <ion-button expand="block" fill="clear" [routerLink]="['/mission',mission.id]">
-          <ion-icon slot="end" color="success" title="voir" name="eye"></ion-icon>
-        </ion-button>
-
-        <ion-button expand="block" fill="clear" >
-          <ion-icon slot="end"  title="voir" name="create"></ion-icon>
-        </ion-button>
-
-        <ion-button expand="block" fill="clear" >
-          <ion-icon slot="end" color="medium" title="voir" name="move"></ion-icon>
-        </ion-button>
-
-        <ion-button (click)="supprimerMission(mission)" expand="block" fill="clear">
-          <ion-icon slot="end" color="danger" name="trash"></ion-icon>
-        </ion-button>
-      </ion-item>
-
-      <ion-item-divider>
-        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
-        <ion-label class="titre">
-          <h2>LISTE DES MISSIONS RECURENTES:</h2>
-        </ion-label>
-      </ion-item-divider>
-
-
-      <ion-item-divider>
-        <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
-        <ion-label class="titre">
-          <h2>MISSIONS TERMINER:</h2>
-        </ion-label>
-      </ion-item-divider>
+          <ng-container [ngTemplateOutlet]="missionsList" [ngTemplateOutletContext]="{missions : getMissionsRecurrentes()}"></ng-container>
+  
+          <ion-item-divider id="missions-terminees">
+            <ion-icon slot="start" name="folder-open-sharp"></ion-icon>
+            <ion-label class="titre">
+              <h2>MISSIONS TERMINER:</h2>
+            </ion-label>
+          </ion-item-divider>
+  
+          <ng-container [ngTemplateOutlet]="missionsList" [ngTemplateOutletContext]="{missions : getMissionsTerminees()}"></ng-container>
+  
+        </ion-reorder-group>
+      </ion-list>
     </div>
-
-
-
 
     <!--Formulaire-->
     <div class="separateur">
-      <h1>Ajouter une nouvelle mission</h1>
+      <h1>{{ mission.id === undefined ? "Ajouter une nouvelle mission" : "Modifier une mission" }}</h1>
       <p class="conseil">
         <ion-icon slot="start" name="bulb"></ion-icon>il vous manque un(e) technicien(ne) ajouter le dans la base de
         données :)
@@ -76,7 +57,7 @@
         <p>Nom de l'entreprise:</p>
         <ion-card>
           <ion-select cancelText="annuler" okText="valider" [(ngModel)]="mission.entreprise">
-            <ion-select-option  *ngFor="let entreprise of entreprises">{{ entreprise.nom }}</ion-select-option>
+            <ion-select-option *ngFor="let entreprise of entreprises">{{ entreprise.nom }}</ion-select-option>
           </ion-select>
         </ion-card>
 
@@ -140,3 +121,28 @@
     </div>
   </div>
 </ion-content>
+
+<ng-template #missionsList let-missions="missions">
+  <ion-item id="{{mission.id}}" *ngFor="let mission of missions">
+    <ion-reorder slot="start">
+      <ion-icon color="medium" title="voir" name="move"></ion-icon>
+    </ion-reorder>
+
+    <ion-checkbox [checked]="mission.isActivated" color="success" (ionChange)="onMissionActivationChanged($event,mission)"></ion-checkbox>
+    <ion-label> <span>Entreprise:</span> {{mission.entreprise}} <br /><span>Mission du:</span> {{ mission.date }}
+      <br /><span>Objectif:</span> {{ mission.titre }}
+    </ion-label>
+    <ion-icon *ngIf="!mission.isActivated" color="danger" name="close"></ion-icon>
+    <ion-button expand="block" fill="clear" [routerLink]="['/mission',mission.id]">
+      <ion-icon slot="end" color="success" title="voir" name="eye"></ion-icon>
+    </ion-button>
+
+    <ion-button expand="block" fill="clear" (click)="onModifierMission(mission)">
+      <ion-icon slot="end" title="voir" name="create"></ion-icon>
+    </ion-button>
+
+    <ion-button (click)="supprimerMission(mission)" expand="block" fill="clear">
+      <ion-icon slot="end" color="danger" name="trash"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ng-template>
